@@ -1,4 +1,3 @@
-import "./WeatherApp.css";
 import { useEffect, useState } from "react";
 import LocationForm from "./widgets/LocationForm";
 import { WeatherData } from "./models/weatherDataInterface";
@@ -47,18 +46,21 @@ function WeatherApp() {
       return errorMessage;
     }
     if (isWeatherLoading) {
-      return "LOADING";
+      return "... LOADING ...";
     }
     if (weatherData) {
-      return `${weatherData?.country} - ${weatherData?.city} - ${weatherData?.temperature}º C`;
+      return `The weather in ${weatherData?.city} (${weatherData?.country}) is ${weatherData?.temperature}º C`;
     }
     return "";
   };
 
   return (
-    <div className="weather-app">
-      <LocationForm setSubmittedCity={setSubmittedCity} />
-      <p>{displayWeather()}</p>
+    <div className="weather-app weather-app__container">
+      <div className="weather-app__content">
+        <h1>Search weather in a city</h1>
+        <LocationForm setSubmittedCity={setSubmittedCity} />
+        <p className="weather-app__result">{displayWeather()}</p>
+      </div>
     </div>
   );
 }

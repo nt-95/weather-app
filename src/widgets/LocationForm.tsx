@@ -16,13 +16,16 @@ const LocationForm = ({ setSubmittedCity }: LocationFormProps) => {
   };
 
   return (
-    <div className="location-form">
-      <label>City Name:</label>
+    <div className="weather-app__location-form location-form__container">
+      <label className="location-form__label">City Name</label>
       <input
+        className="location-form__input"
         onChange={(e) => handleChange(e)}
         placeholder="Enter City Name"
       ></input>
-      <button onClick={() => handleSubmit()}>Search Weather</button>
+      <button className="location-form__button" onClick={() => handleSubmit()}>
+        Search Weather
+      </button>
     </div>
   );
 };
