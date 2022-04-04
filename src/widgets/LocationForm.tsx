@@ -11,7 +11,7 @@ const LocationForm = ({ setSubmittedCity }: LocationFormProps) => {
     setSubmittedCity(cityName);
   };
 
-  const handleChange = (e: any) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSubmittedCityName(e.target.value);
   };
 

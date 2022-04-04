@@ -1,28 +1,28 @@
 import "./WeatherApp.css";
 import { useEffect, useState } from "react";
-import { CurrentResponse } from "./types/CurrentResponse";
 import LocationForm from "./widgets/LocationForm";
-// import axios, { AxiosResponse } from "axios";
+import { WeatherData } from "./models/weatherDataInterface";
 
 function WeatherApp() {
-  const [weatherData, setWeatherData] = useState({
-    country: "",
-    temperature: "",
-    city: "",
-  });
-  const [submittedCity, setSubmittedCity] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
-  const [isWeatherLoading, setIsWeatherLoading] = useState(false);
-
-  const APIKEY = process.env.REACT_APP_API_KEY;
-  const weatherURL = `https://api.openweathermap.org/data/2.5/weather?units=metric&q=${submittedCity}&appid=${APIKEY}`;
+  const [weatherData, setWeatherData] = useState<WeatherData | undefined>(
+    undefined
+  );
+  const [submittedCity, setSubmittedCity] = useState<string | undefined>(
+    undefined
+  );
+  const [errorMessage, setErrorMessage] = useState<string | undefined>(
+    undefined
+  );
+  const [isWeatherLoading, setIsWeatherLoading] = useState<boolean>(false);
 
   useEffect(() => {
-    if (submittedCity === "") {
+    if (!submittedCity) {
       return;
     }
-    async function fetchData(): Promise<any> {
+    async function fetchData(): Promise<void> {
       setIsWeatherLoading(true);
+      const APIKEY = process.env.REACT_APP_API_KEY;
+      const weatherURL = `https://api.openweathermap.org/data/2.5/weather?units=metric&q=${submittedCity}&appid=${APIKEY}`;
       try {
         const response = await fetch(weatherURL);
         const data = await response.json();
@@ -31,11 +31,10 @@ function WeatherApp() {
           temperature: data.main.temp,
           city: data.name,
         });
-        console.log(data);
-        setErrorMessage("");
+        setErrorMessage(undefined);
       } catch {
+        setWeatherData(undefined);
         setErrorMessage(`Couldn't find weather of ${submittedCity}`);
-        setWeatherData({ country: "", temperature: "", city: "" });
       } finally {
         setIsWeatherLoading(false);
       }
@@ -44,18 +43,14 @@ function WeatherApp() {
   }, [submittedCity]);
 
   const displayWeather = (): string => {
-    if (errorMessage !== "") {
+    if (errorMessage) {
       return errorMessage;
     }
     if (isWeatherLoading) {
       return "LOADING";
     }
-    if (
-      weatherData.country !== "" &&
-      weatherData.temperature !== "" &&
-      weatherData.city !== ""
-    ) {
-      return `${weatherData.country} - ${weatherData.city} - ${weatherData.temperature}º C`;
+    if (weatherData) {
+      return `${weatherData?.country} - ${weatherData?.city} - ${weatherData?.temperature}º C`;
     }
     return "";
   };
