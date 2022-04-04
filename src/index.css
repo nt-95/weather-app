@@ -23,6 +23,7 @@ code {
 
 .weather-app__content {
   padding: 3rem;
+  width: 500px;
 }
 
 .location-form__container {
@@ -33,10 +34,11 @@ code {
 .location-form__button {
   margin-top: 1rem;
   background-color: #73add6;
-  border: 1px solid #73add6;
+  border: 1px solid #496f8a;
   padding: 0.4rem 0 0.4rem 0;
   font-size: 16px;
   color: white;
+  width: 40%;
 }
 
 .location-form__button:hover {
@@ -45,9 +47,15 @@ code {
   color: #73add6;
 }
 
+.location-form__button:focus {
+  border: 1px solid #73add6;
+}
+
 .location-form__input {
-  padding: 0.4rem 0 0.4rem 0;
-  font-size: 14px;
+  padding: 0.4rem;
+  font-size: 16px;
+  color: #73add6;
+  border: 2px solid #5f90b3;
 }
 
 .weather-app__result {
