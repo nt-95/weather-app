@@ -25,10 +25,13 @@ function WeatherApp() {
       try {
         const response = await fetch(weatherURL);
         const data = await response.json();
+        console.log(data);
         setWeatherData({
           country: data.sys.country,
           temperature: data.main.temp,
           city: data.name,
+          weather: data.weather[0].main,
+          weatherDescription: data.weather[0].description,
         });
         setErrorMessage(undefined);
       } catch {
@@ -41,6 +44,23 @@ function WeatherApp() {
     fetchData();
   }, [submittedCity]);
 
+  const getWeatherEmoji = (weather: string): string => {
+    switch (weather) {
+      case "Clear":
+        return "🌞";
+      case "Clouds":
+        return "☁️";
+      case "Snow":
+        return "❄️";
+      case "Rain":
+        return "🌧️";
+      case "Thunderstorm":
+        return "⛈️";
+      default:
+        return "🌫️";
+    }
+  };
+
   const displayWeather = (): string => {
     if (errorMessage) {
       return errorMessage;
@@ -49,7 +69,11 @@ function WeatherApp() {
       return "... LOADING ...";
     }
     if (weatherData) {
-      return `The weather in ${weatherData?.city} (${weatherData?.country}) is ${weatherData?.temperature}º C`;
+      return `The weather in ${weatherData?.city} (${
+        weatherData?.country
+      }) is ${weatherData?.temperature}º C ${getWeatherEmoji(
+        weatherData?.weather
+      )} (${weatherData?.weatherDescription})`;
     }
     return "";
   };
