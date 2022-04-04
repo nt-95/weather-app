@@ -20,7 +20,6 @@ const LocationForm = ({ setSubmittedCity }: LocationFormProps) => {
       <label>City Name:</label>
       <input
         onChange={(e) => handleChange(e)}
-        id="cityName"
         placeholder="Enter City Name"
       ></input>
       <button onClick={() => handleSubmit()}>Search Weather</button>
